@@ -1,0 +1,463 @@
+.modalVisible {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.inputError {
+  border-color: #ef4444 !important;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.createFirstChatButton {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 1rem;
+}
+
+.createFirstChatButton:hover {
+  background: var(--hover-accent);
+}
+
+.modalUnvisible {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+
+.modalVisible::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  background: var(--bg);
+  width: 33.333%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.modalVisible .modalContent {
+  animation: slideInFromLeft 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.modalUnvisible .modalContent {
+  animation: slideOutToLeft 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* Заголовок */
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  animation: headerFadeIn 0.4s ease 0.1s both;
+}
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formHeader h2 {
+  margin: 0;
+  color: var(--text);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Контейнер чатов */
+.chatsContainer {
+  flex: 1;
+  overflow-y: auto;
+  animation: containerFadeIn 0.5s ease 0.2s both;
+}
+
+@keyframes containerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Пустое состояние */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  gap: 1rem;
+}
+
+.emptyText {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.createFirstChatButton {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.createFirstChatButton:hover:not(:disabled) {
+  background: var(--hover-accent);
+}
+
+.createFirstChatButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Секция создания чата */
+.createChatSection {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  animation: createSectionFadeIn 0.5s ease 0.3s both;
+}
+
+@keyframes createSectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.createChatButton {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.createChatButton:hover:not(:disabled) {
+  background: rgba(5, 150, 105, 0.1);
+}
+
+.createChatButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Список чатов */
+.chatsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 1rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+  position: relative;
+  animation: chatItemFadeIn 0.4s ease both;
+}
+
+.chatInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+.chatName {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.chatMeta {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.selectedIndicator {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-left: auto;
+}
+
+.chatItem:nth-child(1) { animation-delay: 0.4s; }
+.chatItem:nth-child(2) { animation-delay: 0.45s; }
+.chatItem:nth-child(3) { animation-delay: 0.5s; }
+.chatItem:nth-child(4) { animation-delay: 0.55s; }
+.chatItem:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes chatItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.chatItem:hover {
+  background: var(--bg-secondary);
+  border-color: var(--accent);
+}
+
+.chatItemSelected {
+  background: rgba(5, 150, 105, 0.1);
+  border-color: var(--accent);
+}
+
+/* Кастомный скроллбар */
+.chatsContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatsContainer::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.chatsContainer::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.chatsContainer::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Стили для поля ввода названия чата */
+.nameInputSection {
+  animation: containerFadeIn 0.5s ease 0.2s both;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+}
+
+.inputLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.nameInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.nameInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.inputHint {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.nameActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+.createButton {
+  background: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.createButton:hover {
+  background: var(--hover-accent);
+}
+
+.chatItemUnread {
+  border-left: 3px solid var(--error);
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.chatItemAnswer {
+  border-left: 3px solid var(--accent);
+}
+
+.unreadIndicator {
+  color: var(--error);
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.answerIndicator {
+  color: var(--accent);
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .modalContent {
+    width: 100%;
+  }
+}

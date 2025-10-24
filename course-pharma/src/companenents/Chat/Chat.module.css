@@ -1,0 +1,10 @@
+.chatContainer {
+  padding-top: calc(50px + 5vh);
+  display: flex;
+  flex-direction: column;
+  height: calc(95vh - 50px - 80px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: --bg;
+  color: --text;
+}

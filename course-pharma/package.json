@@ -1,0 +1,33 @@
+{
+  "name": "course-pharma",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@fontsource-variable/nunito-sans": "^5.2.7",
+    "@node-rs/bcrypt": "^1.10.7",
+    "@supabase/supabase-js": "^2.76.1",
+    "jose": "^6.1.0",
+    "kysely": "^0.28.8",
+    "next": "16.0.0",
+    "pg": "^8.16.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-use": "^17.6.0",
+    "the-new-css-reset": "^1.11.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/pg": "^8.15.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.0",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,53 @@
+.chatMessages {
+  flex: 1;
+  padding: 1rem;
+  padding: 0 21rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* justify-content: flex-end; */
+}
+
+/* Стили для скроллбара */
+.chatMessages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatMessages::-webkit-scrollbar-track {
+  background: var(--bg-secondary, #252428);
+  border-radius: 3px;
+}
+
+.chatMessages::-webkit-scrollbar-thumb {
+  background: var(--accent, #2A9D8F);
+  border-radius: 3px;
+}
+
+.chatMessages::-webkit-scrollbar-thumb:hover {
+  background: var(--hover-accent, #23867A);
+}
+
+@media (max-width: 1300px) {
+    .chatMessages {
+  padding: 0 14rem;
+  }
+}
+
+@media (max-width: 1100px) {
+    .chatMessages {
+  padding: 0 8rem;
+  }
+}
+
+@media (max-width: 900px) {
+    .chatMessages {
+  padding: 0 6rem;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .chatMessages {
+    padding: 0.75rem;
+  }
+}
