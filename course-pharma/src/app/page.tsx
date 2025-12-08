@@ -114,7 +114,7 @@ export default function Page() {
       // if (aiResponse.success && aiResponse.text) {
         const aiMessage: Message = {
           id: Date.now() + 1,
-          text: aiResponse,
+          text: aiResponse.text,
           answer: true,
           chat: currentChatId,
           createdAt: `${time} ${dateStr}`
