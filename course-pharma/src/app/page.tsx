@@ -109,12 +109,12 @@ export default function Page() {
     try {
       await insertMessage(userMessage)
       setMessages(prev => [...prev, userMessage])
-      const aiResponse = await sendMessageToAI(text)
+      const aiResponse = await sendMessageToAI(userId, text)
 
-      if (aiResponse.success && aiResponse.text) {
+      // if (aiResponse.success && aiResponse.text) {
         const aiMessage: Message = {
           id: Date.now() + 1,
-          text: aiResponse.text,
+          text: aiResponse,
           answer: true,
           chat: currentChatId,
           createdAt: `${time} ${dateStr}`
@@ -123,18 +123,18 @@ export default function Page() {
         await insertMessage(aiMessage)
         setMessages(prev => [...prev, aiMessage])
         setIsInputDisabled(false)
-      } else {
-        const errorMessage: Message = {
-          id: Date.now() + 1,
-          text: aiResponse.error || 'Произошла ошибка при обработке запроса',
-          answer: true,
-          chat: currentChatId,
-          createdAt: `${time} ${dateStr}`
-        }
-        await insertMessage(errorMessage)
-        setMessages(prev => [...prev, errorMessage])
-        setIsInputDisabled(false)
-      }
+      // } else {
+      //   const errorMessage: Message = {
+      //     id: Date.now() + 1,
+      //     text: aiResponse.error || 'Произошла ошибка при обработке запроса',
+      //     answer: true,
+      //     chat: currentChatId,
+      //     createdAt: `${time} ${dateStr}`
+      //   }
+      //   await insertMessage(errorMessage)
+      //   setMessages(prev => [...prev, errorMessage])
+      //   setIsInputDisabled(false)
+      // }
     } catch (error) {
       console.error('Ошибка отправки сообщения:', error)
       setIsInputDisabled(false)

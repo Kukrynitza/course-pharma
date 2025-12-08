@@ -10,6 +10,7 @@ export default async function selectChats(id: number) {
       'chats.user',
       'chats.updateAt'
     ])
+    .where('chats.user', '=', id)
     .orderBy('chats.updateAt', 'desc')
     .execute()
   return result?.map((element) => {

@@ -1,20 +1,25 @@
-export default async function sendMessageToAI(text: string){
-  return {text: 'Первые шаги'}
+export default async function sendMessageToAI(id: number, text: string){
+  // return {text: 'Первые шаги'}
   // return {success: true, text: 'Первые шаги'}
   try {
-    const response = await fetch('http://localhost:8000/process', {
+    const response = await fetch('http://localhost:8000/api/medical/query', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-        text: text
+        text: text,
+        user_id: id,
+        language: 'ru'
       }),
     })
     console.log(response)
-    
+    if (!response.ok) {
+      throw new Error('Ошибка анализа')
+    }
     const data = await response.json()
-    return data
+    console.log(data)
+    return data.recommendations[0]
     
   } catch (error) {
     if (error instanceof Error) {
