@@ -53,6 +53,7 @@ export default function ChatSelector({
     }
 
     onCreateNewChat(trimmedName)
+    handleCancelCreate()
   }
 
   const handleCancelCreate = () => {

@@ -1,7 +1,15 @@
 'use client'
 import { useEffect, useRef } from 'react'
-import Message, { MessageType } from '@/companenents/Message/Message'
+import Message from '@/companenents/Message/Message'
 import styles from './ChatMessages.module.css'
+
+export interface MessageType {
+  id: number
+  text: string 
+  answer: boolean
+  chat?: number
+  createdAt: string
+}
 
 interface ChatMessagesProps {
   messages: MessageType[]

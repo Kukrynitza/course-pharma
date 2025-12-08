@@ -1,13 +1,13 @@
 export default async function sendMessageToAI(id: number, text: string, chat: number){
   // return {success: true, text: 'Первые шаги'}
   try {
-    const response = await fetch('http://localhost:8000/api/v1/recommend/text', {
+    const response = await fetch('http://localhost:8000/api/v1/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
-		symptoms: text,
+		message: text,
     chat,
 		method: "content",
 		top_n: 5
@@ -18,7 +18,7 @@ export default async function sendMessageToAI(id: number, text: string, chat: nu
       throw new Error('Ошибка анализа')
     }
     const data = await response.json()
-    return {success: true, text: data.message}
+    return {success: true, text: data.response}
     
   } catch (error) {
     if (error instanceof Error) {

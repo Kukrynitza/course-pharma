@@ -27,11 +27,11 @@ export default function Page() {
 
   const loadUserChats = async () => {
     if (!userId) return
+    setCurrentChatId(null)
     
     try {
       const userChats = await selectChats(userId)
       setChats(userChats)
-      
       if (userChats.length > 0 && !currentChatId) {
         setCurrentChatId(userChats[0].id)
       }
@@ -164,6 +164,7 @@ export default function Page() {
   }, [userId])
 
   useEffect(() => {
+    // console.log(currentChatId, userId)
     if (currentChatId && userId) {
       loadChatMessages(currentChatId)
     }
@@ -186,7 +187,7 @@ export default function Page() {
           <div className={styles.welcome}>
             <p>Для начала общения необходимо зарегистрироваться</p>
             <button 
-              className={styles.registerButton}
+              className={styles.createFirstChatButton}
               onClick={() => setRegistration(1)}
             >
               Зарегистрироваться

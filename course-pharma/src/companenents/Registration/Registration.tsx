@@ -16,8 +16,25 @@ const loginSchema = pipe(
   string(),
   trim(),
   minLength(3, 'Минимальная длина логина - 3 символа'),
-  maxLength(20, 'Максимальная длина логина - 20 символов')
+  maxLength(30, 'Максимальная длина логина - 20 символов')
 )
+
+interface FormErrors {
+  login?: string;
+  password?: string;
+}
+
+interface RegistrationState {
+  login: string
+  password: string
+  success: boolean
+  error: string | null
+  fieldErrors: {
+    login?: string
+    password?: string
+  }
+}
+
 
 interface Registration {
   registration: number;
@@ -28,16 +45,17 @@ export default function Registration({ registration, setRegistration }: Registra
   const [usersLogins, setUsersLogin] = useState<string[] | undefined>()
   const modalRef = useRef<HTMLDivElement>(null)
 
-  async function registrationAction(prevState: any, formData: FormData) {
-    const login = formData.get('login') as string
-    const password = formData.get('password') as string
-  
+  async function registrationAction(prevState: RegistrationState, formData: FormData): Promise<RegistrationState> {
+  const login = String(formData.get('login') ?? '')
+  const password = String(formData.get('password') ?? '')
+
+    // console.log(login)
     try {
       parse(loginSchema, login)
-    } catch (error: any) {
+    } catch (error: unknown) {
       return { 
-        login: formData.get('login'),
-        password: formData.get('password'),
+        login,
+        password,
         success: false, 
         error: 'Проверьте правильность введенных данных',
         fieldErrors: { login: 'Введите корректный логин' }
@@ -46,21 +64,22 @@ export default function Registration({ registration, setRegistration }: Registra
   
     try {
       parse(passwordSchema, password)
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Ошибка'
       return { 
-        login: formData.get('login'),
-        password: formData.get('password'),
+        login,
+        password,
         success: false, 
         error: 'Проверьте правильность введенных данных',
-        fieldErrors: { password: error.message }
+        fieldErrors: { password: message }
       }
     }
   
     if (!usersLogins || usersLogins.find(element => element === login)) {
       console.log(usersLogins)
       return { 
-        login: formData.get('login'),
-        password: formData.get('password'),
+        login,
+        password,
         success: false, 
         error: 'Этот логин уже используется',
         fieldErrors: { login: 'Этот логин уже используется' }
@@ -69,8 +88,8 @@ export default function Registration({ registration, setRegistration }: Registra
     insertUser({login: login, password: password})
     setRegistration(0)
     return {       
-      login: formData.get('login'),
-      password: formData.get('password'), 
+      login,
+      password, 
       success: true, 
       error: null, 
       fieldErrors: {} 
@@ -143,7 +162,7 @@ export default function Registration({ registration, setRegistration }: Registra
               placeholder="Введите логин"
               required
               minLength={3}
-              maxLength={20}
+              maxLength={30}
               defaultValue={typeof state.login === 'string' ? state.login : ''}
             />
             {state.fieldErrors?.login && (

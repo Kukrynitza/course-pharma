@@ -4,11 +4,23 @@ import { maxLength, minLength, pipe, string, trim, parse } from 'valibot'
 import styles from './Auntification.module.css'
 import selectUsers from '@/actions/User/selectUsers';
 import autentificationUser from '@/actions/User/autentificationUser';
-import { verify } from '@node-rs/bcrypt';
 
 interface User {
   login: string;
   password: string;
+}
+
+interface FormErrors {
+  login?: string;
+  password?: string;
+}
+
+interface AuthState {
+  login: string;
+  password: string;
+  success: boolean;
+  error: string | null;
+  fieldErrors: FormErrors;
 }
 
 const passwordSchema = pipe(
@@ -22,7 +34,7 @@ const loginSchema = pipe(
   string(),
   trim(),
   minLength(3, 'Минимальная длина логина - 3 символа'),
-  maxLength(20, 'Максимальная длина логина - 20 символов')
+  maxLength(30, 'Максимальная длина логина - 30 символов')
 )
 
 interface Auntification {
@@ -39,78 +51,83 @@ export default function Auntification({ registration, setRegistration }: Auntifi
     }
   selectUsersPasAndLog()
   },[])
-  async function auntificationAction(prevState: any, formData: FormData) {
-  const login = formData.get('login') as string
-  const password = formData.get('password') as string
-  
-  try {
-    parse(loginSchema, login)
-  } catch (error: any) {
-    return { 
-      login: formData.get('login'),
-      password: formData.get('password'),
-      success: false, 
-      error: 'Проверьте правильность введенных данных',
-      fieldErrors: { login: 'Введите корректный логин' }
-    }
-  }
-  
-  try {
-    parse(passwordSchema, password)
-  } catch (error: any) {
-    return { 
-      login: formData.get('login'),
-      password: formData.get('password'),
-      success: false, 
-      error: 'Проверьте правильность введенных данных',
-      fieldErrors: { password: error.message }
-    }
-  }
-  if (!users || !users.find(element => element.login === login)) {
-    return { 
-      login: formData.get('login'),
-      password: formData.get('password'),
-      success: false, 
-      error: 'Неверный логин или пароль',
-      fieldErrors: { login: 'Неверный логин или пароль' }
-    }
-  }
-  async function autentficate() {
-    const isOK = await autentificationUser({login: login, password: password})
-    if(isOK){
-      setRegistration(0)   
-      return {      
-        login: formData.get('login'),
-        password: formData.get('password'), 
-        success: true, 
-        error: null, 
-        fieldErrors: {} 
+
+const [state, formAction, isPending] = useActionState(
+  async (prevState: AuthState , formData: FormData) => {
+    const login = formData.get('login') as string
+    const password = formData.get('password') as string
+    // console.log(login)
+    try {
+      parse(loginSchema, login)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Ошибка'
+      return {
+        ...prevState,
+        login,
+        password,
+        success: false,
+        error: 'Проверьте правильность введённых данных',
+        fieldErrors: { login: message }
       }
     }
-    return { 
-      login: formData.get('login'),
-      password: formData.get('password'),
-      success: false, 
-      error: 'Неверный логин или пароль',
-      fieldErrors: { login: 'Неверный логин или пароль' }
+
+    try {
+      parse(passwordSchema, password)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Ошибка'
+      return {
+        ...prevState,
+        login,
+        password,
+        success: false,
+        error: 'Проверьте правильность введённых данных',
+        fieldErrors: { password: message }
+      }
     }
-    } 
-  autentficate()
-      return { 
-      login: formData.get('login'),
-      password: formData.get('password'),
-      success: false, 
-      error: 'Ожидание твоего',
-      fieldErrors: { login: 'Неверный пароль' }
+
+    if (!users || !users.some(u => u.login === login)) {
+      return {
+        ...prevState,
+        login,
+        password,
+        success: false,
+        error: 'Неверный логин или пароль',
+        fieldErrors: { login: 'Неверный логин или пароль' }
+      }
     }
-}
-  const [state, action, isPending] = useActionState(auntificationAction, {
+
+    const ok = await autentificationUser({ login, password })
+
+    if (!ok) {
+      return {
+        ...prevState,
+        login,
+        password,
+        success: false,
+        error: 'Неверный логин или пароль',
+        fieldErrors: { login: 'Неверный логин или пароль' }
+      }
+    }
+
+    setRegistration(0)
+
+    return {
+      ...prevState,
+      login,
+      password,
+      success: true,
+      error: null,
+      fieldErrors: {}
+    }
+  },
+  {
     login: '',
     password: '',
     success: false,
     error: null,
     fieldErrors: {}
-  })
+  }
+)
 
   const modalRef = useRef<HTMLDivElement>(null)
 
@@ -142,7 +159,7 @@ export default function Auntification({ registration, setRegistration }: Auntifi
       ref={modalRef}
     >
       <div className={styles.modalContent}>
-        <form action={action} className={styles.auntificationForm}>
+        <form action={formAction} className={styles.auntificationForm}>
           <div className={styles.formHeader}>
             <h2>Вход в аккаунт</h2>
             <button 
@@ -164,7 +181,7 @@ export default function Auntification({ registration, setRegistration }: Auntifi
               placeholder="Введите логин"
               required
               minLength={3}
-              maxLength={20}
+              maxLength={30}
               defaultValue={typeof state.login === 'string' ? state.login : ''}
             />
             {state.fieldErrors?.login && (
