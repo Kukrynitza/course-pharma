@@ -109,7 +109,7 @@ export default function Page() {
     try {
       await insertMessage(userMessage)
       setMessages(prev => [...prev, userMessage])
-      const aiResponse = await sendMessageToAI(userId, text)
+      const aiResponse = await sendMessageToAI(userId, text, currentChatId)
 
       // if (aiResponse.success && aiResponse.text) {
         const aiMessage: Message = {

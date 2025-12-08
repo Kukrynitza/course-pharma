@@ -1,4 +1,4 @@
-export default async function sendMessageToAI(id: number, text: string){
+export default async function sendMessageToAI(id: number, text: string, chat: number){
   // return {success: true, text: 'Первые шаги'}
   try {
     const response = await fetch('http://localhost:8000/api/v1/recommend/text', {
@@ -8,6 +8,7 @@ export default async function sendMessageToAI(id: number, text: string){
       },
       body: JSON.stringify({ 
 		symptoms: text,
+    chat,
 		method: "content",
 		top_n: 5
       }),
