@@ -39,3 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+mirror/Mirror/chat-service/src/main/resources/application.properties
