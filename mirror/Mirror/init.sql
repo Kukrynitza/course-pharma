@@ -1,0 +1,4 @@
+CREATE DATABASE authentication;
+CREATE DATABASE users_rep;
+CREATE DATABASE chats;
+

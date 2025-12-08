@@ -1,0 +1,84 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+*.egg
+*.EGG
+*.egg-info
+dist/
+build/
+*.whl
+*.tar.gz
+*.bak
+*.swp
+*~
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+virtualenv/
+ENV/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+*.cover
+htmlcov/
+.tox/
+.nox/
+*.log
+*.log.*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Package manager
+pip-wheel-metadata/
+Pipfile.lock
+poetry.lock
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Documentation
+docs/_build/
+docs/build/
+docs/source/generated/
+
+# Miscellaneous
+*.cache
+*.tmp
+temp/
+tmp/
+*.bak
+*.swp
+*~
+
+# Project-specific (add your project-specific patterns here)
+
+.png
+next-env.d.ts
+*.dump
+next-env.d.ts

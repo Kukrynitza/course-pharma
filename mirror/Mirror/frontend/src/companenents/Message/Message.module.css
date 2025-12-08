@@ -1,0 +1,137 @@
+.message {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  position: relative;
+  animation: messageSlideIn 0.3s ease;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.messageOwn {
+  align-self: flex-end;
+  background: var(--accent, --accent);
+  color: white;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.messageOther {
+  align-self: flex-start;
+  background: var(--bg, --bg);
+  border: 1px solid var(--border, --border);
+  border-bottom-left-radius: 0.25rem;
+}
+
+.messageText {
+  margin: 0;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.messageTime {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 0.25rem;
+  text-align: right;
+}
+
+.messageImage {
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.messageImage:hover {
+  transform: scale(1.02);
+}
+
+.audioMessage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.audioPlayButton {
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.audioPlayButton:hover {
+  background: var(--hover-accent);
+  transform: scale(1.05);
+}
+
+.audioPlayButton.playing {
+  background: var(--hover-accent);
+}
+
+.audioInfo {
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .message {
+    max-width: 85%;
+  }
+  
+  .messageImage {
+    max-width: 250px;
+    max-height: 250px;
+  }
+    .audioMessage {
+    min-width: 180px;
+    max-width: 250px;
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .audioPlayButton {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .audioInfo {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .message {
+    max-width: 90%;
+  }
+  
+  .messageImage {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}

@@ -1,0 +1,49 @@
+:root {
+  color-scheme: light;
+  --text-muted: #6B7280;       
+  --bg: #FFFFFF;            
+  --text: #1F2937;             
+  --accent: #059669;         
+  --error: #DC2626;            
+  --hover-accent: #047857;    
+  --hover-error: #B91C1C;     
+  --border: #E5E7EB;          
+  --bg-secondary: #F3F4F6;  
+  --accent-rgb: 5, 150, 105;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --text-muted: #B8B8B8;
+  --bg: #232225;
+  --text: #FFFFFF;
+  --accent: #2A9D8F;
+  --error: #D8436E;
+  --hover-accent: #23867A;
+  --hover-error: #B23A5C;
+  --border: #3A3841;
+  --bg-secondary: #252428;
+  --accent-rgb: 42, 157, 143;
+}
+
+[data-theme="sepia"] {
+  --text-muted: #A1887F;        
+  --bg: #FDF6E3;               
+  --text: #4E342E;      
+  --accent: #8B6B3F;           
+  --error: #BF360C;            
+  --hover-accent: #6D4C41;    
+  --hover-error: #8B0000;      
+  --border: #D7CCC8;          
+  --bg-secondary: #F4EBD0; 
+  --accent-rgb: 139, 107, 63;
+}
+html {
+  scrollbar-color:  var(--accent) var(--bg-secondary);
+}
+
+body {
+  font-family: 'Nunito Sans Variable', sans-serif;
+  width: 100%;
+  background-color: var(--bg);
+}

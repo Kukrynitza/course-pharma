@@ -1,0 +1,8 @@
+.chatContainer {
+  padding-top: calc(50px + 5vh);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: --bg;
+  color: --text;
+}
