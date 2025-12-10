@@ -27,22 +27,25 @@ export default async function loadMessages(chatId: number): Promise<MessageType[
     const data = await response.json()
 
     return data.map((msg: MessageApiItem) => {
-      let text = '';
-
-      if (msg.prompt && msg.response) {
-        text = `Вопрос: ${msg.prompt} \n\n Ответ: ${msg.response}`;
-      } else {
-        text = msg.prompt || msg.response || '';
-      }
-      return {
+      return [
+        {
         id: msg.id?.toString(),
-        text,
-        isOwn: false,
+        text: msg.prompt || '',
+        isOwn: true,
         timestamp: new Date(msg.requestTime || Date.now()),
         image: msg.imageBase64 ? `data:image/jpeg;base64,${msg.imageBase64}` : undefined,
         audio: undefined
+      },
+        {
+        id: msg.id?.toString(),
+        text: msg.response || '',
+        isOwn: false,
+        timestamp: new Date(msg.requestTime || Date.now()),
+        image: undefined,
+        audio: undefined
       }
-    })
+    ]
+    }).flat()
   } catch (e) {
     console.error('Ошибка загрузки сообщений:', e)
     return []
