@@ -125,14 +125,20 @@ public class LLMRequestHistoryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+    @Data
+    @NoArgsConstructor
+    public static class HistoryRecordCreateDto {
+        private String prompt;
+        private String response;
+        private String imageUrl; // может быть null
+    }
     /**
      * Создать новую запись истории
      */
     @PostMapping("/create")
     public ResponseEntity<?> createHistory(
             @RequestParam Long chatId,
-            @RequestBody Map<String, Object> requestBody) {  // ← Принимай Map
+            @RequestBody HistoryRecordCreateDto hist) {  // ← Принимай Map
 
         Optional<Chat> chatOpt = chatService.findById(chatId);
         if (chatOpt.isEmpty()) {
@@ -145,16 +151,16 @@ public class LLMRequestHistoryController {
             // Создаём объект вручную
             log.info("chatId: {}", chatId);
 
-            log.info("Prompt: {}", requestBody.get("prompt"));
-            log.info("Response: {}", requestBody.get("response"));
-            log.info("Types: {}, {}", requestBody.get("prompt").getClass(),
-                    requestBody.get("response").getClass());
+            log.info("Prompt: {}", hist.getPrompt());
+            log.info("Response: {}",hist.getResponse());
+
 
             LLMRequestHistory history = new LLMRequestHistory();
             history.setId(null);
-            history.setPrompt((String) requestBody.get("prompt"));
-            history.setResponse((String) requestBody.get("response"));
-            history.setImageUrl((String) requestBody.get("imageUrl"));
+            history.setPrompt((String) hist.getPrompt());
+            history.setResponse((String) hist.getResponse());
+
+            history.setImageUrl((String) hist.getImageUrl());
             history.setChat(chat);
 
             LLMRequestHistory created = llmRequestHistoryService.create(history);

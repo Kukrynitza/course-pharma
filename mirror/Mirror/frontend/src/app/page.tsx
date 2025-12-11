@@ -13,6 +13,7 @@ import createNewChat from "@/actions/Chat/createNewChat"
 import loadUserChats from "@/actions/Chat/loadUserChats"
 import loadMessages from "@/actions/Messages/loadMessages"
 import sendMessage from "@/actions/Messages/sendMessage"
+import sendMessageToAI from "@/actions/Messages/sendMessageToAI"
 
 export default function Page() {
   const [registration, setRegistration] = useState<number>(0)
@@ -137,8 +138,15 @@ export default function Page() {
     }))
 
     try {
-      const response = await sendMessage(Number(chatKey), userId.userId, text, image, audio)
-      console.log("Ответ сервера:", response)
+      let response: Awaited<ReturnType<typeof sendMessage>>;
+
+      if (image) {
+        response = await sendMessage(Number(chatKey), userId.userId, text, image, audio);
+      } else {
+        response = await sendMessageToAI(userId.userId, text, Number(chatKey));
+      }
+
+      console.log("Ответ сервера:", response);
 
       if (response.response) {
         const botMessage: MessageType = {
@@ -197,7 +205,15 @@ export default function Page() {
             />
           )
         ) : (
-          <p className={styles.noUserText}>Пожалуйста, войдите или зарегистрируйтесь</p>
+            <div className={styles.welcome}>
+          <p>Для начала общения необходимо зарегистрироваться</p>
+          <button 
+            className={styles.createFirstChatButton}
+            onClick={() => setRegistration(1)}
+          >
+            Зарегистрироваться
+          </button>
+        </div>
         )}
 
         {registration === 1 && (
